@@ -20,18 +20,16 @@ namespace Tanks
 
         public void OnFire()
         {
-            if (_canFire)
-            {
-                _canFire = false;
+            if (!_canFire) return;
+            _canFire = false;
 
-                if (_side == SideType.Player) SoundManager.Singleton.PlayerShoot();
+            if (_side == SideType.Player) SoundManager.Singleton.PlayerShoot();
 
-                var bullet = Instantiate(_prefab, transform.position, transform.rotation);
+            var bullet = Instantiate(_prefab, transform.position, transform.rotation);
 
-                bullet.SetParams(transform.eulerAngles.ConvertRotationFromType(), _side);
+            bullet.SetParams(transform.eulerAngles.ConvertRotationFromType(), _side);
 
-                StartCoroutine(Delay());
-            }
+            StartCoroutine(Delay());
         }
 
         private IEnumerator Delay()

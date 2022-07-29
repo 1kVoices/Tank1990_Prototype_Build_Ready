@@ -24,7 +24,7 @@ namespace Tanks
         [SerializeField]
         private GameObject _pauseMenu;
 
-        void Start()
+        private void Start()
         {
             _moveComp = GetComponent<MoveComponent>();
             _fireComp = GetComponent<FireComponent>();
@@ -36,7 +36,7 @@ namespace Tanks
             _pause.performed += Pause;
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             var button = _fire.ReadValue<float>();
             if (button == 1f) _fireComp.OnFire();
@@ -54,18 +54,15 @@ namespace Tanks
             _moveComp.OnMove(type, false);
         }
 
-        void Pause(InputAction.CallbackContext context)
+        private void Pause(InputAction.CallbackContext context)
         {
-            if (!_playerComp.IsGettingHit)
-            {
-                SoundManager.Singleton.GamePause();
+            if (_playerComp.IsGettingHit) return;
+            SoundManager.Singleton.GamePause();
 
-                if (_pauseMenu.activeSelf) _pauseMenu.SetActive(false);
-                else _pauseMenu.SetActive(true);
-            }
+            _pauseMenu.SetActive(!_pauseMenu.activeSelf);
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             _move.Dispose();
             _fire.Dispose();

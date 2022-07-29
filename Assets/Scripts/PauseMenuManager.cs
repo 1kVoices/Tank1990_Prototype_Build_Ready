@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
@@ -41,8 +39,8 @@ namespace Tanks
         {
             SceneManager.LoadScene(0);
         }
-        void OnEnable() => Time.timeScale = 0f;
 
-        void OnDisable() => Time.timeScale = 1f;
+        private void OnEnable() => Time.timeScale = 0f;
+        private void OnDisable() => Time.timeScale = 1f;
     }
 }

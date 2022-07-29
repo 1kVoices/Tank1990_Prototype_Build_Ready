@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 namespace Tanks
 {
@@ -36,24 +34,24 @@ namespace Tanks
 
         private int _layer;
 
-        void Start()
+        private void Start()
         {
             _layer = LayerMask.GetMask("Level");
-            _spriteRenderer.sprite = _sprites[UnityEngine.Random.Range(0, _sprites.Length)];
+            _spriteRenderer.sprite = _sprites[Random.Range(0, _sprites.Length)];
         }
 
-        void Update()
+        private void Update()
         {
             if (_isHardBot)
                 SeekPlayer();
         }
 
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             _moveComp.OnMove(_direction, _isPlayerInSight);
         }
 
-        void LateUpdate()
+        private void LateUpdate()
         {
             _fireComp.OnFire();
         }
@@ -62,10 +60,10 @@ namespace Tanks
 
         void SeekPlayer()
         {
-            RaycastHit2D hitPlayerRight = Physics2D.Raycast(transform.position, Vector2.right, 15f, _layer);
-            RaycastHit2D hitPlayerLeft = Physics2D.Raycast(transform.position, -Vector2.right, 15f, _layer);
-            RaycastHit2D hitPlayerTop = Physics2D.Raycast(transform.position, Vector2.up, 15f, _layer);
-            RaycastHit2D hitPlayerBot = Physics2D.Raycast(transform.position, -Vector2.up, 15f, _layer);
+            var hitPlayerRight = Physics2D.Raycast(transform.position, Vector2.right, 15f, _layer);
+            var hitPlayerLeft = Physics2D.Raycast(transform.position, -Vector2.right, 15f, _layer);
+            var hitPlayerTop = Physics2D.Raycast(transform.position, Vector2.up, 15f, _layer);
+            var hitPlayerBot = Physics2D.Raycast(transform.position, -Vector2.up, 15f, _layer);
 
             Debug.DrawRay(transform.position, Vector2.right * 15f, Color.red);
             Debug.DrawRay(transform.position, -Vector2.right * 15f, Color.red);
@@ -103,12 +101,12 @@ namespace Tanks
         public void SetDirection(DirectionType[] Options)
         {
             if (Options.Length < 1) return;
-            _direction = Options[UnityEngine.Random.Range(0, Options.Length)];
+            _direction = Options[Random.Range(0, Options.Length)];
             Invoke(nameof(ResetColliderCheck), 0.1f);
         }
 
         public void SwitchMainCollider(bool isEnable) => _mainCol.isTrigger = !isEnable;
-        
-        void ResetColliderCheck() => _collDetector.SetFirstCol(true);   
+
+        private void ResetColliderCheck() => _collDetector.SetFirstCol(true);
     }
 }

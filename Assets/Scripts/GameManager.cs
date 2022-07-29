@@ -12,7 +12,7 @@ namespace Tanks
         private BotComponent _botPrefab;
 
         [SerializeField]
-        private Transform[] _startPostitions;
+        private Transform[] _startPositions;
 
         [SerializeField]
         private int _botsSpawnDelay = 1;
@@ -22,10 +22,10 @@ namespace Tanks
         [SerializeField]
         private bool _isHardBots;
 
-        private List<BotComponent> _bots = new List<BotComponent>(); 
+        private readonly List<BotComponent> _bots = new List<BotComponent>();
 
-        private bool _isSpawning = false;
-        private bool _isEndGame = false;
+        private bool _isSpawning;
+        private bool _isEndGame;
 
         [SerializeField]
         private GameObject _gameOverScreen;
@@ -39,7 +39,7 @@ namespace Tanks
         [SerializeField]
         private PlayerConditionComponent _playerComp;
 
-        void Start()
+        private void Start()
         {
             Invoke(nameof(BotSpawner), 1f);
             GameEvents.Singleton.onKillBot += KillBot;
@@ -52,7 +52,7 @@ namespace Tanks
             GameEvents.Singleton.onEndGame += EndGame;
         }
 
-        void Update()
+        private void Update()
         {
             if (_bots.Count < 1)
                 SpawnBots();
@@ -61,22 +61,18 @@ namespace Tanks
             _playerHpShadow.text = _playerComp.GetHealth.ToString();
         }
 
-        void EndGame()
+        private void EndGame()
         {
-            if (this != null)
-            {
-                SoundManager.Singleton.GameOver();
-                if (!_isEndGame)
-                {
-                    _isEndGame = true;
-                    StartCoroutine(EndGameCor());
-                }
-            }
+            if (this == null) return;
+            SoundManager.Singleton.GameOver();
+            if (_isEndGame) return;
+            _isEndGame = true;
+            StartCoroutine(EndGameCor());
         }
 
-        void KillBot(BotComponent bot)
+        private void KillBot(BotComponent bot)
         {
-            var listToKill = new List<BotComponent>();
+            List<BotComponent> listToKill = new List<BotComponent>();
 
             listToKill.Add(bot);
 
@@ -86,30 +82,26 @@ namespace Tanks
             }
         }
 
-        void SpawnBots()
+        private void SpawnBots()
         {
-            if (!_isSpawning)
-            {
-                _isSpawning = true;
-                StartCoroutine(BotSpawner());
-            }
+            if (_isSpawning) return;
+            _isSpawning = true;
+            StartCoroutine(BotSpawner());
         }
 
-        IEnumerator EndGameCor()
+        private IEnumerator EndGameCor()
         {
-            if (this != null)
-            {
-                _gameOverScreen.SetActive(true);
-                yield return new WaitForSeconds(2f);
-                SceneManager.LoadScene(0);
-            }
+            if (this == null) yield break;
+            _gameOverScreen.SetActive(true);
+            yield return new WaitForSeconds(2f);
+            SceneManager.LoadScene(0);
         }
 
-        IEnumerator BotSpawner()
+        private IEnumerator BotSpawner()
         {
             while (_bots.Count != _botsCount)
             {
-                var bot = Instantiate(_botPrefab, _startPostitions[UnityEngine.Random.Range(0, _startPostitions.Length)]);
+                var bot = Instantiate(_botPrefab, _startPositions[Random.Range(0, _startPositions.Length)]);
                 bot.SetBotDifficulty(_isHardBots);
                 _bots.Add(bot);
 

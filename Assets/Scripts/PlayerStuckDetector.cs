@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Tanks
 {
@@ -11,9 +9,9 @@ namespace Tanks
 
         void OnTriggerStay2D(Collider2D col)
         {
-            var collider = col.GetComponent<ColliderComponent>();
+            var ColComponent = col.GetComponent<ColliderComponent>();
 
-            if (collider) _playerCondition.SetIsPlayerStuck(true);
+            if (ColComponent) _playerCondition.SetIsPlayerStuck(true);
             
         }
 

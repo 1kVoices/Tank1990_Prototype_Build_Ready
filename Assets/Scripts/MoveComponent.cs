@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Tanks
 {
@@ -20,13 +18,11 @@ namespace Tanks
             }
             transform.eulerAngles = type.ConvertTypeFromRotation();
 
-            if (_side == SideType.Player)
-            {
-                var playerStuck = GetComponent<PlayerConditionComponent>().GetIsPlayerStuck;
+            if (_side != SideType.Player) return;
+            var playerStuck = GetComponent<PlayerConditionComponent>().GetIsPlayerStuck;
 
-                if (playerStuck) SoundManager.Singleton.PlayerStuck();
-                else SoundManager.Singleton.PlayerMove();
-            }
+            if (playerStuck) SoundManager.Singleton.PlayerStuck();
+            else SoundManager.Singleton.PlayerMove();
         }
     }
 }

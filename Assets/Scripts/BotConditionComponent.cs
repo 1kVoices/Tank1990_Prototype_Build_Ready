@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Tanks
+﻿namespace Tanks
 {
     public class BotConditionComponent : ConditionComponent
     {
-        void Start()
+        private void Start()
         {
             _health = GameEvents.Singleton.GetBotsHp;
         }

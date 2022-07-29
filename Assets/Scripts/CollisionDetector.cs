@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Tanks
@@ -11,24 +10,23 @@ namespace Tanks
 
         private int _layer;
 
-        private bool _firstCol = true;
-        public bool GetFirstCol => _firstCol;
+        private bool GetFirstCol { get; set; } = true;
 
-        void Start()
+        private void Start()
         {
             _layer = LayerMask.GetMask("Level");
             _botComp.SetDirection(SeekRoute());
         }
-        public void SetFirstCol(bool b) => _firstCol = b;
+        public void SetFirstCol(bool b) => GetFirstCol = b;
 
-        void OnTriggerStay2D(Collider2D col)
+        private void OnTriggerStay2D(Collider2D col)
         {
             if (col.GetComponent<ColliderComponent>())
             {
-                if (_firstCol)
+                if (GetFirstCol)
                 {
                     _botComp.SwitchMainCollider(true);
-                    _firstCol = false;
+                    GetFirstCol = false;
                     _botComp.SetDirection(SeekRoute());
                 }
             }
@@ -41,12 +39,12 @@ namespace Tanks
 
         DirectionType[] SeekRoute()
         {
-            RaycastHit2D hitTop = Physics2D.Raycast(transform.position, Vector2.up, 0.7f, _layer);
-            RaycastHit2D hitRight = Physics2D.Raycast(transform.position, Vector2.right, 0.7f, _layer);
-            RaycastHit2D hitBot = Physics2D.Raycast(transform.position, -Vector2.up, 0.7f, _layer);
-            RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, -Vector2.right, 0.7f, _layer);
+            var hitTop = Physics2D.Raycast(transform.position, Vector2.up, 0.7f, _layer);
+            var hitRight = Physics2D.Raycast(transform.position, Vector2.right, 0.7f, _layer);
+            var hitBot = Physics2D.Raycast(transform.position, -Vector2.up, 0.7f, _layer);
+            var hitLeft = Physics2D.Raycast(transform.position, -Vector2.right, 0.7f, _layer);
 
-            var result = new List<DirectionType>();
+            List<DirectionType> result = new List<DirectionType>();
 
             if (!hitTop.collider) result.Add(DirectionType.Top);
             if (!hitRight.collider) result.Add(DirectionType.Right);

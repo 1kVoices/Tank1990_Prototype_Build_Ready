@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
@@ -7,8 +6,8 @@ namespace Tanks
 {
     public static class Extensions 
     {
-        private static Dictionary<DirectionType, Vector3> _directions;
-        private static Dictionary<DirectionType, Vector3> _rotations;
+        private static readonly Dictionary<DirectionType, Vector3> _directions;
+        private static readonly Dictionary<DirectionType, Vector3> _rotations;
 
         static Extensions()
         {
@@ -31,7 +30,7 @@ namespace Tanks
 
         public static Vector3 ConvertTypeFromDirection(this DirectionType type) => _directions[type];
 
-        public static DirectionType ConvertDirectionFromType(this Vector3 direction) => _directions.First(x => x.Value == direction).Key;
+        private static DirectionType ConvertDirectionFromType(this Vector3 direction) => _directions.First(x => x.Value == direction).Key;
 
         public static DirectionType ConvertDirectionFromType(this Vector2 direction) => ConvertDirectionFromType((Vector3)direction);
 

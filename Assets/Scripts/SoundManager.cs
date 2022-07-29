@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Audio;
 
 namespace Tanks
@@ -46,7 +44,7 @@ namespace Tanks
 
         private bool _isPlaying2;
 
-        void Awake()
+        private void Awake()
         {
             if (!Singleton)
             {
@@ -68,27 +66,23 @@ namespace Tanks
 
         public void PlayerMove()
         {
-            if (!_isPlaying)
-            {
-                _isPlaying = true;
-                _playerMove.Play();
-                Invoke(nameof(ResetIsPlaying), _playerMove.clip.length);
-            }
+            if (_isPlaying) return;
+            _isPlaying = true;
+            _playerMove.Play();
+            Invoke(nameof(ResetIsPlaying), _playerMove.clip.length);
         }
 
-        void ResetIsPlaying() => _isPlaying = false;
+        private void ResetIsPlaying() => _isPlaying = false;
         
         public void PlayerStuck()
         {
-            if (!_isPlaying2)
-            {
-                _isPlaying2 = true;
-                _playerStuck.Play();
-                Invoke(nameof(ResetIsPlaying2), _playerStuck.clip.length);
-            }
+            if (_isPlaying2) return;
+            _isPlaying2 = true;
+            _playerStuck.Play();
+            Invoke(nameof(ResetIsPlaying2), _playerStuck.clip.length);
         }
 
-        void ResetIsPlaying2() => _isPlaying2 = false;
+        private void ResetIsPlaying2() => _isPlaying2 = false;
         
         public void GameOver() => _mainSource.PlayOneShot(_gameOver);
 

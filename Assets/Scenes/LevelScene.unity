@@ -9295,13 +9295,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _botPrefab: {fileID: 1820571800817842961, guid: f9c0eb46b2a69334f90f3dbc1255fe8c,
     type: 3}
-  _startPostitions:
+  _startPositions:
   - {fileID: 697780281}
   - {fileID: 1709350067}
   - {fileID: 708010129}
   - {fileID: 1733005510}
-  botsSpawnDelay: 1
-  botsCount: 4
+  _botsSpawnDelay: 1
   _isHardBots: 1
   _gameOverScreen: {fileID: 1028085644}
   _playerHp: {fileID: 249964595}

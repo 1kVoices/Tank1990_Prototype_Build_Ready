@@ -11,22 +11,13 @@ namespace Tanks
 
         public event Action<BotComponent> onKillBot;
 
-        private bool _isHardBots;
-        public bool GetBotsDifficulty => _isHardBots;
+        public bool GetBotsDifficulty { get; private set; }
+        public int GetPlayerHp { get; private set; }
+        public int GetBotsHp { get; private set; }
+        public int GetBotsAmount { get; private set; }
+        public bool GetIsFirstStartUp { get; private set; } = true;
 
-        private int _playerHealth;
-        public int GetPlayerHp => _playerHealth;
-
-        private int _botsHealth;
-        public int GetBotsHp => _botsHealth;
-
-        private int _botsAmount;
-        public int GetBotsAmount => _botsAmount;
-
-        private bool _isFirstStartUp = true;
-        public bool GetIsFirstStartUp => _isFirstStartUp;
-
-        void Awake()
+        private void Awake()
         {
             if (!Singleton)
             {
@@ -36,24 +27,24 @@ namespace Tanks
 
             else Destroy(gameObject);
 
-            _playerHealth = 1;
-            _botsHealth = 1;
-            _botsAmount = 1;
-            _isHardBots = true;
+            GetPlayerHp = 1;
+            GetBotsHp = 1;
+            GetBotsAmount = 1;
+            GetBotsDifficulty = true;
         }
 
         public void EndGame() => onEndGame?.Invoke();
         
         public void KillBot(BotComponent bot) => onKillBot?.Invoke(bot);
 
-        public void SetPlayerHealth(int i) => _playerHealth = i;
+        public void SetPlayerHealth(int i) => GetPlayerHp = i;
 
-        public void SetBotDifficulty(bool b) => _isHardBots = b;
+        public void SetBotDifficulty(bool b) => GetBotsDifficulty = b;
 
-        public void SetBotsHealth(int i) => _botsHealth = i;
+        public void SetBotsHealth(int i) => GetBotsHp = i;
 
-        public void SetBotsAmount(int i) => _botsAmount = i;
+        public void SetBotsAmount(int i) => GetBotsAmount = i;
 
-        public void SetFirstStartUp(bool b) => _isFirstStartUp = b;
+        public void SetFirstStartUp(bool b) => GetIsFirstStartUp = b;
     }
 }

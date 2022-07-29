@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Tanks
@@ -25,7 +24,7 @@ namespace Tanks
         private bool _isGettingHit;
         public bool IsGettingHit => _isGettingHit;
 
-        void Start()
+        private void Start()
         {
             _startPoint = transform.position;
             _renderer = GetComponent<SpriteRenderer>();

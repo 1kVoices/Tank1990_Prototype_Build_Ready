@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Tanks
 {
@@ -19,7 +17,7 @@ namespace Tanks
         [SerializeField]
         private float _lifeTime = 5f;
 
-        void Start()
+        private void Start()
         {
             _moveComp = GetComponent<MoveComponent>();
             Destroy(gameObject, _lifeTime);
@@ -27,12 +25,12 @@ namespace Tanks
 
         public void SetParams(DirectionType direction, SideType side) => (_direction, _side) = (direction, side);
 
-        void Update()
+        private void Update()
         {
             _moveComp.OnMove(_direction, false);
         }
 
-        void OnTriggerEnter2D(Collider2D collision)
+        private void OnTriggerEnter2D(Collider2D collision)
         {
             var fire = collision.GetComponent<FireComponent>();
 
@@ -55,26 +53,22 @@ namespace Tanks
                 }
             }
 
-            var collider = collision.GetComponent<ColliderComponent>();
+            var ColComponent = collision.GetComponent<ColliderComponent>();
 
-            if (collider)
+            if (ColComponent)
             {
                 if (_side == SideType.Player) SoundManager.Singleton.HitBrick();
-                if (collider.DestroyProjectile) Destroy(gameObject);
-                if (collider.DestroyCell) Destroy(collider.gameObject);
+                if (ColComponent.DestroyProjectile) Destroy(gameObject);
+                if (ColComponent.DestroyCell) Destroy(ColComponent.gameObject);
             }
 
             var flag = collision.GetComponent<FlagScript>();
 
-            if (flag)
-            {
-                if (flag.GetSideType != _side)
-                {
-                    GameEvents.Singleton.EndGame();
-                    Destroy(flag.gameObject);
-                    Destroy(gameObject);
-                }
-            }
+            if (!flag) return;
+            if (flag.GetSideType == _side) return;
+            GameEvents.Singleton.EndGame();
+            Destroy(flag.gameObject);
+            Destroy(gameObject);
         }
     }
 }

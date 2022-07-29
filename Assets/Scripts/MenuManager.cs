@@ -48,7 +48,7 @@ namespace Tanks
         [SerializeField]
         private Text _volumeIndicator;
 
-        IEnumerator Start()
+        private IEnumerator Start()
         {
             scene1 = SceneManager.LoadSceneAsync(1);
             scene1.allowSceneActivation = false;
@@ -60,7 +60,7 @@ namespace Tanks
             _exitButton.interactable = true;
         }
 
-        void Update()
+        private void Update()
         {
             _playerHpIndicator.text = _playerHpSlider.value.ToString();
             _botsHpIndicator.text = _botsHpSlider.value.ToString();

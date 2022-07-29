@@ -7,7 +7,7 @@ namespace Tanks
         [SerializeField, Min(1)]
         protected int _health = 3;
 
-        public bool Invulnerable { get; protected set; }
+        protected bool Invulnerable { get; set; }
 
         public int GetHealth => _health;
 
